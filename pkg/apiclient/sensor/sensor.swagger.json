@@ -1,0 +1,316 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Sensor Service",
+    "description": "Sensor Service API performs CRUD actions against sensor status",
+    "version": "version not set"
+  },
+  "schemes": [
+    "http",
+    "https"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/api/v1/sensors/{namespace}/{name}/status": {
+      "get": {
+        "operationId": "GetSensorStatus",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/github.com.argoproj.argo_events.pkg.apis.sensor.v1alpha1.SensorStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "namespace",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "name",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "getOptions.resourceVersion",
+            "description": "When specified:\n- if unset, then the result is returned from remote storage based on quorum-read flag;\n- if it's 0, then we simply return what we currently have in cache, no guarantee;\n- if set to non zero, then the result is at least as fresh as given rv.",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "SensorService"
+        ]
+      },
+      "put": {
+        "operationId": "UpdateSensorStatus",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/github.com.argoproj.argo_events.pkg.apis.sensor.v1alpha1.SensorStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "namespace",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "name",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/sensor.SensorStatusUpdateRequest"
+            }
+          }
+        ],
+        "tags": [
+          "SensorService"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "github.com.argoproj.argo_events.pkg.apis.common.Condition": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "title": "Condition type.\n+required"
+        },
+        "status": {
+          "type": "string",
+          "title": "Condition status, True, False or Unknown.\n+required"
+        },
+        "lastTransitionTime": {
+          "$ref": "#/definitions/k8s.io.apimachinery.pkg.apis.meta.v1.Time",
+          "title": "Last time the condition transitioned from one status to another.\n+optional"
+        },
+        "reason": {
+          "type": "string",
+          "title": "Unique, this should be a short, machine understandable string that gives the reason\nfor condition's last transition. For example, \"ImageNotFound\"\n+optional"
+        },
+        "message": {
+          "type": "string",
+          "title": "Human-readable message indicating details about last transition.\n+optional"
+        }
+      },
+      "title": "Condition contains details about resource state"
+    },
+    "github.com.argoproj.argo_events.pkg.apis.common.Status": {
+      "type": "object",
+      "properties": {
+        "conditions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/github.com.argoproj.argo_events.pkg.apis.common.Condition"
+          },
+          "title": "Conditions are the latest available observations of a resource's current state.\n+optional\n+patchMergeKey=type\n+patchStrategy=merge"
+        }
+      },
+      "description": "Status is a common structure which can be used for Status field."
+    },
+    "github.com.argoproj.argo_events.pkg.apis.sensor.v1alpha1.Event": {
+      "type": "object",
+      "properties": {
+        "context": {
+          "$ref": "#/definitions/github.com.argoproj.argo_events.pkg.apis.sensor.v1alpha1.EventContext"
+        },
+        "data": {
+          "type": "string",
+          "format": "byte"
+        }
+      },
+      "description": "Event represents the cloudevent received from a gateway."
+    },
+    "github.com.argoproj.argo_events.pkg.apis.sensor.v1alpha1.EventContext": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "ID of the event; must be non-empty and unique within the scope of the producer."
+        },
+        "source": {
+          "type": "string",
+          "description": "Source - A URI describing the event producer."
+        },
+        "specversion": {
+          "type": "string",
+          "description": "SpecVersion - The version of the CloudEvents specification used by the event."
+        },
+        "type": {
+          "type": "string",
+          "description": "Type - The type of the occurrence which has happened."
+        },
+        "dataContentType": {
+          "type": "string",
+          "description": "DataContentType - A MIME (RFC2046) string describing the media type of `data`."
+        },
+        "subject": {
+          "type": "string",
+          "title": "Subject - The subject of the event in the context of the event producer"
+        },
+        "time": {
+          "$ref": "#/definitions/k8s.io.apimachinery.pkg.apis.meta.v1.Time",
+          "description": "Time - A Timestamp when the event happened."
+        }
+      },
+      "description": "EventContext holds the context of the cloudevent received from a gateway."
+    },
+    "github.com.argoproj.argo_events.pkg.apis.sensor.v1alpha1.NodeStatus": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "title": "ID is a unique identifier of a node within a sensor\nIt is a hash of the node name"
+        },
+        "name": {
+          "type": "string",
+          "title": "Name is a unique name in the node tree used to generate the node ID"
+        },
+        "displayName": {
+          "type": "string",
+          "title": "DisplayName is the human readable representation of the node"
+        },
+        "type": {
+          "type": "string",
+          "title": "Type is the type of the node"
+        },
+        "phase": {
+          "type": "string",
+          "title": "Phase of the node"
+        },
+        "startedAt": {
+          "$ref": "#/definitions/k8s.io.apimachinery.pkg.apis.meta.v1.MicroTime",
+          "title": "StartedAt is the time at which this node started"
+        },
+        "completedAt": {
+          "$ref": "#/definitions/k8s.io.apimachinery.pkg.apis.meta.v1.MicroTime",
+          "title": "CompletedAt is the time at which this node completed"
+        },
+        "message": {
+          "type": "string",
+          "title": "store data or something to save for event notifications or trigger events"
+        },
+        "event": {
+          "$ref": "#/definitions/github.com.argoproj.argo_events.pkg.apis.sensor.v1alpha1.Event",
+          "title": "Event stores the last seen event for this node"
+        },
+        "updatedAt": {
+          "$ref": "#/definitions/k8s.io.apimachinery.pkg.apis.meta.v1.MicroTime",
+          "description": "UpdatedAt refers to the time at which the node was updated."
+        },
+        "resolvedAt": {
+          "$ref": "#/definitions/k8s.io.apimachinery.pkg.apis.meta.v1.MicroTime",
+          "description": "ResolvedAt refers to the time at which the node was resolved."
+        }
+      },
+      "description": "NodeStatus describes the status for an individual node in the sensor's FSM.\nA single node can represent the status for event or a trigger."
+    },
+    "github.com.argoproj.argo_events.pkg.apis.sensor.v1alpha1.SensorStatus": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "$ref": "#/definitions/github.com.argoproj.argo_events.pkg.apis.common.Status"
+        },
+        "nodes": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/definitions/github.com.argoproj.argo_events.pkg.apis.sensor.v1alpha1.NodeStatus"
+          },
+          "description": "Nodes is a mapping between a node ID and the node's status\nit records the states for the FSM of this sensor."
+        },
+        "triggerCycleCount": {
+          "type": "integer",
+          "format": "int32",
+          "description": "TriggerCycleCount is the count of sensor's trigger cycle runs."
+        },
+        "triggerCycleStatus": {
+          "type": "string",
+          "description": "TriggerCycleState is the status from last cycle of triggers execution."
+        },
+        "lastCycleTime": {
+          "$ref": "#/definitions/k8s.io.apimachinery.pkg.apis.meta.v1.Time",
+          "title": "LastCycleTime is the time when last trigger cycle completed"
+        }
+      },
+      "description": "SensorStatus contains information about the status of a sensor."
+    },
+    "k8s.io.apimachinery.pkg.apis.meta.v1.GetOptions": {
+      "type": "object",
+      "properties": {
+        "resourceVersion": {
+          "type": "string",
+          "description": "When specified:\n- if unset, then the result is returned from remote storage based on quorum-read flag;\n- if it's 0, then we simply return what we currently have in cache, no guarantee;\n- if set to non zero, then the result is at least as fresh as given rv."
+        }
+      },
+      "description": "GetOptions is the standard query options to the standard REST get call."
+    },
+    "k8s.io.apimachinery.pkg.apis.meta.v1.MicroTime": {
+      "type": "object",
+      "properties": {
+        "seconds": {
+          "type": "string",
+          "format": "int64",
+          "description": "Represents seconds of UTC time since Unix epoch\n1970-01-01T00:00:00Z. Must be from 0001-01-01T00:00:00Z to\n9999-12-31T23:59:59Z inclusive."
+        },
+        "nanos": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Non-negative fractions of a second at nanosecond resolution. Negative\nsecond values with fractions must still have non-negative nanos values\nthat count forward in time. Must be from 0 to 999,999,999\ninclusive. This field may be limited in precision depending on context."
+        }
+      },
+      "description": "MicroTime is version of Time with microsecond level precision.\n\n+protobuf.options.marshal=false\n+protobuf.as=Timestamp\n+protobuf.options.(gogoproto.goproto_stringer)=false"
+    },
+    "k8s.io.apimachinery.pkg.apis.meta.v1.Time": {
+      "type": "object",
+      "properties": {
+        "seconds": {
+          "type": "string",
+          "format": "int64",
+          "description": "Represents seconds of UTC time since Unix epoch\n1970-01-01T00:00:00Z. Must be from 0001-01-01T00:00:00Z to\n9999-12-31T23:59:59Z inclusive."
+        },
+        "nanos": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Non-negative fractions of a second at nanosecond resolution. Negative\nsecond values with fractions must still have non-negative nanos values\nthat count forward in time. Must be from 0 to 999,999,999\ninclusive. This field may be limited in precision depending on context."
+        }
+      },
+      "description": "Time is a wrapper around time.Time which supports correct\nmarshaling to YAML and JSON.  Wrappers are provided for many\nof the factory methods that the time package offers.\n\n+protobuf.options.marshal=false\n+protobuf.as=Timestamp\n+protobuf.options.(gogoproto.goproto_stringer)=false"
+    },
+    "sensor.SensorStatusUpdateRequest": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "namespace": {
+          "type": "string"
+        },
+        "status": {
+          "$ref": "#/definitions/github.com.argoproj.argo_events.pkg.apis.sensor.v1alpha1.SensorStatus"
+        }
+      }
+    }
+  }
+}

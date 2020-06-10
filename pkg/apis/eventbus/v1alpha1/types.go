@@ -118,7 +118,7 @@ const (
 
 // InitConditions sets conditions to Unknown state.
 func (s *EventBusStatus) InitConditions() {
-	s.Status.InitConditions(EventBusConditionDeployed, EventBusConditionConfigured)
+	s.Status.InitializeConditions(EventBusConditionDeployed, EventBusConditionConfigured)
 }
 
 // MarkDeployed set the bus has been deployed.
@@ -144,4 +144,9 @@ func (s *EventBusStatus) MarkConfigured() {
 // MarkNotConfigured set the bus status not configured.
 func (s *EventBusStatus) MarkNotConfigured(reason, message string) {
 	s.Status.MarkFalse(EventBusConditionConfigured, reason, message)
+}
+
+// IsReady returns if the EventBus is ready
+func (s *EventBusStatus) IsReady() bool {
+	return s.Status.IsReady()
 }

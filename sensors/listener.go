@@ -17,7 +17,6 @@ limitations under the License.
 package sensors
 
 import (
-	"context"
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
@@ -44,29 +43,30 @@ func (sensorCtx *SensorContext) ListenEvents() error {
 		}
 	}()
 
-	// sync Sensor resource after updates
-	go sensorCtx.syncSensor(context.Background())
-
 	errCh := make(chan error)
+	if sensorCtx.EventBusType != nil {
 
-	// listen events over http
-	if sensorCtx.Sensor.Spec.Subscription.HTTP != nil {
-		go func() {
-			if err := sensorCtx.listenEventsOverHTTP(); err != nil {
-				errCh <- errors.Wrap(err, "failed to listen events over HTTP subscription")
-			}
-		}()
+	} else {
+		// TODO: unsupport these.
+		sensorCtx.Logger.Warn("spec.subscription is deprecated, will be unsupported soon, please use EventBus instead")
+		// listen events over http
+		if sensorCtx.Sensor.Spec.Subscription.HTTP != nil {
+			go func() {
+				if err := sensorCtx.listenEventsOverHTTP(); err != nil {
+					errCh <- errors.Wrap(err, "failed to listen events over HTTP subscription")
+				}
+			}()
+		}
+
+		// listen events over nats
+		if sensorCtx.Sensor.Spec.Subscription.NATS != nil {
+			go func() {
+				if err := sensorCtx.listenEventsOverNATS(); err != nil {
+					errCh <- errors.Wrap(err, "failed to listen events over NATS subscription")
+				}
+			}()
+		}
 	}
-
-	// listen events over nats
-	if sensorCtx.Sensor.Spec.Subscription.NATS != nil {
-		go func() {
-			if err := sensorCtx.listenEventsOverNATS(); err != nil {
-				errCh <- errors.Wrap(err, "failed to listen events over NATS subscription")
-			}
-		}()
-	}
-
 	err := <-errCh
 	sensorCtx.Logger.WithError(err).Errorln("subscription failure. stopping sensor operations")
 

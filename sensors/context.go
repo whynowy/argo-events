@@ -29,35 +29,34 @@ import (
 	"k8s.io/client-go/kubernetes"
 
 	"github.com/argoproj/argo-events/common"
+	apicommon "github.com/argoproj/argo-events/pkg/apis/common"
+	eventbusv1alpha1 "github.com/argoproj/argo-events/pkg/apis/eventbus/v1alpha1"
 	"github.com/argoproj/argo-events/pkg/apis/sensor/v1alpha1"
-	sensorclientset "github.com/argoproj/argo-events/pkg/client/sensor/clientset/versioned"
 	"github.com/argoproj/argo-events/sensors/types"
 )
 
 // SensorContext contains execution context for Sensor
 type SensorContext struct {
-	// SensorClient is the client for Sensor
-	SensorClient sensorclientset.Interface
 	// KubeClient is the kubernetes client
 	KubeClient kubernetes.Interface
 	// ClientPool manages a pool of dynamic clients.
 	DynamicClient dynamic.Interface
 	// Sensor object
 	Sensor *v1alpha1.Sensor
+	// Type of EventBus
+	EventBusType *apicommon.EventBusType
+	// Auth strategy of EventBus
+	EventBusAuth *eventbusv1alpha1.AuthStrategy
 	// Logger for the Sensor
 	Logger *logrus.Logger
 	// NotificationQueue is internal NotificationQueue to manage incoming events
 	NotificationQueue chan *types.Notification
-	// ControllerInstanceID is the instance ID of Sensor controller processing this Sensor
-	ControllerInstanceID string
-	// Updated indicates update to Sensor resource
-	Updated bool
 	// httpClients holds the reference to HTTP clients for HTTP triggers.
 	httpClients map[string]*http.Client
 	// customTriggerClients holds the references to the gRPC clients for the custom trigger servers
 	customTriggerClients map[string]*grpc.ClientConn
 	// http client to send slack messages.
-	slackHttpClient *http.Client
+	slackHTTPClient *http.Client
 	// kafkaProducers holds references to the active kafka producers
 	kafkaProducers map[string]sarama.AsyncProducer
 	// natsConnections holds the references to the active nats connections.
@@ -69,18 +68,18 @@ type SensorContext struct {
 }
 
 // NewSensorContext returns a new sensor execution context.
-func NewSensorContext(sensorClient sensorclientset.Interface, kubeClient kubernetes.Interface, dynamicClient dynamic.Interface, sensor *v1alpha1.Sensor, controllerInstanceID string) *SensorContext {
+func NewSensorContext(kubeClient kubernetes.Interface, dynamicClient dynamic.Interface, sensor *v1alpha1.Sensor, eventBusType *apicommon.EventBusType, eventBusAuth *eventbusv1alpha1.AuthStrategy) *SensorContext {
 	return &SensorContext{
-		SensorClient:         sensorClient,
 		KubeClient:           kubeClient,
 		DynamicClient:        dynamicClient,
 		Sensor:               sensor,
+		EventBusType:         eventBusType,
+		EventBusAuth:         eventBusAuth,
 		Logger:               common.NewArgoEventsLogger().WithField(common.LabelSensorName, sensor.Name).Logger,
 		NotificationQueue:    make(chan *types.Notification),
-		ControllerInstanceID: controllerInstanceID,
 		httpClients:          make(map[string]*http.Client),
 		customTriggerClients: make(map[string]*grpc.ClientConn),
-		slackHttpClient: &http.Client{
+		slackHTTPClient: &http.Client{
 			Timeout: time.Minute * 5,
 		},
 		kafkaProducers:   make(map[string]sarama.AsyncProducer),

@@ -22,6 +22,8 @@ require (
 	github.com/cloudevents/sdk-go v1.1.2
 	github.com/cloudfoundry/jibber_jabber v0.0.0-20151120183258-bcc4c8345a21 // indirect
 	github.com/colinmarc/hdfs v1.1.4-0.20180802165501-48eb8d6c34a9
+	github.com/docker/docker v0.7.3-0.20190327010347-be7ac8be2ae0
+	github.com/docker/go-metrics v0.0.1 // indirect
 	github.com/eclipse/paho.mqtt.golang v1.2.0
 	github.com/emicklei/go-restful v2.12.0+incompatible // indirect
 	github.com/emitter-io/go/v2 v2.0.5
@@ -45,6 +47,7 @@ require (
 	github.com/gopherjs/gopherjs v0.0.0-20200217142428-fce0ec30dd00 // indirect
 	github.com/gorilla/mux v1.7.4
 	github.com/gorilla/websocket v1.4.2 // indirect
+	github.com/grpc-ecosystem/go-grpc-middleware v1.0.1-0.20190118093823-f849b5445de4
 	github.com/grpc-ecosystem/grpc-gateway v1.9.5
 	github.com/hashicorp/go-retryablehttp v0.6.5 // indirect
 	github.com/hashicorp/golang-lru v0.5.4 // indirect
@@ -66,7 +69,9 @@ require (
 	github.com/mitchellh/reflectwalk v1.0.1 // indirect
 	github.com/nats-io/gnatsd v1.4.1 // indirect
 	github.com/nats-io/go-nats v1.7.2
+	github.com/nats-io/nats.go v1.9.1
 	github.com/nats-io/nkeys v0.1.4 // indirect
+	github.com/nats-io/stan.go v0.6.0
 	github.com/nicksnyder/go-i18n v1.10.1-0.20190510212457-b280125b035a // indirect
 	github.com/nlopes/slack v0.6.1-0.20200219171353-c05e07b0a5de
 	github.com/nsqio/go-nsq v1.0.8
@@ -80,6 +85,8 @@ require (
 	github.com/sirupsen/logrus v1.5.0
 	github.com/smartystreets/assertions v0.0.0-20190401211740-f487f9de1cd3 // indirect
 	github.com/smartystreets/goconvey v1.6.4
+	github.com/soheilhy/cmux v0.1.4
+	github.com/spf13/viper v1.3.2
 	github.com/streadway/amqp v0.0.0-20200108173154-1c71cc93ed71
 	github.com/stretchr/testify v1.5.1
 	github.com/stripe/stripe-go v70.11.0+incompatible
@@ -91,14 +98,18 @@ require (
 	github.com/yudai/pp v2.0.1+incompatible // indirect
 	go.uber.org/zap v1.14.1
 	golang.org/x/crypto v0.0.0-20200429183012-4b2356b1ed79
+	golang.org/x/net v0.0.0-20200513185701-a91f0712d120
 	golang.org/x/sys v0.0.0-20200409092240-59c9f1ba88fa // indirect
 	google.golang.org/api v0.21.0
+	google.golang.org/genproto v0.0.0-20200408120641-fbb3ad325eb7
 	google.golang.org/grpc v1.28.1
+	gopkg.in/fsnotify.v1 v1.4.7
 	gopkg.in/ini.v1 v1.55.0 // indirect
 	gopkg.in/jcmturner/goidentity.v2 v2.0.0 // indirect
 	gopkg.in/jcmturner/gokrb5.v5 v5.3.0
 	gopkg.in/jcmturner/rpc.v0 v0.0.2 // indirect
 	gopkg.in/src-d/go-git.v4 v4.13.1
+	grpc.go4.org v0.0.0-20170609214715-11d0a25b4919
 	k8s.io/api v0.17.5
 	k8s.io/apimachinery v0.17.5
 	k8s.io/client-go v0.17.5
@@ -106,6 +117,7 @@ require (
 	k8s.io/gengo v0.0.0-20190822140433-26a664648505
 	k8s.io/kube-openapi v0.0.0-20200316234421-82d701f24f9d
 	k8s.io/kubernetes v1.17.5 // indirect
+	k8s.io/sample-controller v0.0.0-00010101000000-000000000000
 	k8s.io/utils v0.0.0-20200327001022-6496210b90e8 // indirect
 	sigs.k8s.io/controller-runtime v0.5.4
 	sigs.k8s.io/controller-tools v0.2.5

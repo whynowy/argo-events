@@ -1,0 +1,38 @@
+syntax = "proto3";
+option go_package = "github.com/argoproj/argo-events/pkg/apiclient/sensor";
+
+import "github.com/gogo/protobuf/gogoproto/gogo.proto";
+import "google/api/annotations.proto";
+import "k8s.io/apimachinery/pkg/apis/meta/v1/generated.proto";
+import "github.com/argoproj/argo-events/pkg/apis/sensor/v1alpha1/generated.proto";
+import "k8s.io/api/core/v1/generated.proto";
+
+// Sensor Service
+//
+// Sensor Service API performs CRUD actions against sensor status
+package sensor;
+
+message SensorStatusGetRequest {
+    string name = 1;
+    string namespace = 2;
+    k8s.io.apimachinery.pkg.apis.meta.v1.GetOptions getOptions = 3;
+}
+
+message SensorStatusUpdateRequest {
+    string name = 1;
+    string namespace = 2;
+    github.com.argoproj.argo_events.pkg.apis.sensor.v1alpha1.SensorStatus status = 3;
+}
+
+service SensorService {
+    rpc GetSensorStatus (SensorStatusGetRequest) returns (github.com.argoproj.argo_events.pkg.apis.sensor.v1alpha1.SensorStatus) {
+        option (google.api.http).get = "/api/v1/sensors/{namespace}/{name}/status";
+    }
+
+    rpc UpdateSensorStatus (SensorStatusUpdateRequest) returns (github.com.argoproj.argo_events.pkg.apis.sensor.v1alpha1.SensorStatus) {
+        option (google.api.http) = {
+			put: "/api/v1/sensors/{namespace}/{name}/status"
+			body: "*"
+		};
+    }
+}

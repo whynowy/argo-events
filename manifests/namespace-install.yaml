@@ -187,6 +187,19 @@ metadata:
   name: sensor-controller-configmap
   namespace: argo-events
 ---
+apiVersion: v1
+kind: Service
+metadata:
+  name: sensor-proxy
+  namespace: argo-events
+spec:
+  ports:
+  - name: tcp
+    port: 2974
+    targetPort: 2974
+  selector:
+    app: sensor-proxy
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -276,3 +289,40 @@ spec:
         image: argoproj/sensor-controller:v0.16.0
         name: sensor-controller
       serviceAccountName: argo-events-sa
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sensor-proxy
+  namespace: argo-events
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sensor-proxy
+  template:
+    metadata:
+      labels:
+        app: sensor-proxy
+    spec:
+      containers:
+      - args:
+        - --namespaced
+        env:
+        - name: NAMESPACE
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
+        image: argoproj/sensor-proxy:v0.16.0
+        name: sensor-proxy
+        volumeMounts:
+        - mountPath: /etc/sensor-proxy/
+          name: auth-volume
+      serviceAccountName: argo-events-sa
+      volumes:
+      - name: auth-volume
+        secret:
+          items:
+          - key: auth-secrets
+            path: auth-secrets.yaml
+          secretName: sensor-proxy-auth-screts

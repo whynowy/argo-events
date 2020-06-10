@@ -54,6 +54,13 @@ const (
 	EnvVarGatewayServerImage = "GATEWAY_SERVER_IMAGE"
 	// EnvVarSensorImage refers to the default sensor image
 	EnvVarSensorImage = "SENSOR_IMAGE"
+	// EnvVarSensorObject refers to the env of based64 encoded sensor spec
+	EnvVarSensorObject = "SENSOR_OBJECT"
+
+	// EnvVarEventBusType refers to the type of EventBus
+	EnvVarEventBusType = "EVENTBUS"
+	// EnvVarEventBusAuth refers to the auth strategy of event bus
+	EnvVarEventBusAuth = "EVENTBUS_AUTH"
 )
 
 // Controller labels
@@ -78,6 +85,15 @@ const (
 	LabelSensorName = "sensor-name"
 	// Port for the sensor server to listen events on
 	SensorServerPort = 9300
+
+	// secret name for sensor proxy server CERT and PK
+	SensorProxyCertSecretName = "sensor-proxy-secrets"
+	// secret name for sensor proxy auth
+	SensorProxyAuthSecretName = "sensor-proxy-auth-screts"
+	// service name of sensor-proxy
+	SensorProxyServiceName = "sensor-proxy"
+	// Port for sensor proxy server
+	SensorProxyPort = 2974
 )
 
 // Gateway constants

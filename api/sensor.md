@@ -1289,13 +1289,6 @@ Event
 
 <p>
 
-(<em>Appears on:</em>
-<a href="#argoproj.io/v1alpha1.NodeStatus">NodeStatus</a>)
-
-</p>
-
-<p>
-
 <p>
 
 Event represents the cloudevent received from a gateway.
@@ -2359,7 +2352,7 @@ HTTPSubscription
 <p>
 
 HTTPSubscription holds the context of the HTTP subscription of events
-for the sensor.
+for the sensor. DEPRECATED
 
 </p>
 
@@ -3290,361 +3283,6 @@ TLS configuration for the NATS producer.
 
 </table>
 
-<h3 id="argoproj.io/v1alpha1.NodePhase">
-
-NodePhase (<code>string</code> alias)
-
-</p>
-
-</h3>
-
-<p>
-
-(<em>Appears on:</em>
-<a href="#argoproj.io/v1alpha1.NodeStatus">NodeStatus</a>,
-<a href="#argoproj.io/v1alpha1.SensorStatus">SensorStatus</a>)
-
-</p>
-
-<p>
-
-<p>
-
-NodePhase is the label for the condition of a node
-
-</p>
-
-</p>
-
-<h3 id="argoproj.io/v1alpha1.NodeStatus">
-
-NodeStatus
-
-</h3>
-
-<p>
-
-(<em>Appears on:</em>
-<a href="#argoproj.io/v1alpha1.SensorStatus">SensorStatus</a>)
-
-</p>
-
-<p>
-
-<p>
-
-NodeStatus describes the status for an individual node in the sensor’s
-FSM. A single node can represent the status for event or a trigger.
-
-</p>
-
-</p>
-
-<table>
-
-<thead>
-
-<tr>
-
-<th>
-
-Field
-
-</th>
-
-<th>
-
-Description
-
-</th>
-
-</tr>
-
-</thead>
-
-<tbody>
-
-<tr>
-
-<td>
-
-<code>id</code></br> <em> string </em>
-
-</td>
-
-<td>
-
-<p>
-
-ID is a unique identifier of a node within a sensor It is a hash of the
-node name
-
-</p>
-
-</td>
-
-</tr>
-
-<tr>
-
-<td>
-
-<code>name</code></br> <em> string </em>
-
-</td>
-
-<td>
-
-<p>
-
-Name is a unique name in the node tree used to generate the node ID
-
-</p>
-
-</td>
-
-</tr>
-
-<tr>
-
-<td>
-
-<code>displayName</code></br> <em> string </em>
-
-</td>
-
-<td>
-
-<p>
-
-DisplayName is the human readable representation of the node
-
-</p>
-
-</td>
-
-</tr>
-
-<tr>
-
-<td>
-
-<code>type</code></br> <em> <a href="#argoproj.io/v1alpha1.NodeType">
-NodeType </a> </em>
-
-</td>
-
-<td>
-
-<p>
-
-Type is the type of the node
-
-</p>
-
-</td>
-
-</tr>
-
-<tr>
-
-<td>
-
-<code>phase</code></br> <em> <a href="#argoproj.io/v1alpha1.NodePhase">
-NodePhase </a> </em>
-
-</td>
-
-<td>
-
-<p>
-
-Phase of the node
-
-</p>
-
-</td>
-
-</tr>
-
-<tr>
-
-<td>
-
-<code>startedAt</code></br> <em>
-<a href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.13/#microtime-v1-meta">
-Kubernetes meta/v1.MicroTime </a> </em>
-
-</td>
-
-<td>
-
-<p>
-
-StartedAt is the time at which this node started
-
-</p>
-
-</td>
-
-</tr>
-
-<tr>
-
-<td>
-
-<code>completedAt</code></br> <em>
-<a href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.13/#microtime-v1-meta">
-Kubernetes meta/v1.MicroTime </a> </em>
-
-</td>
-
-<td>
-
-<p>
-
-CompletedAt is the time at which this node completed
-
-</p>
-
-</td>
-
-</tr>
-
-<tr>
-
-<td>
-
-<code>message</code></br> <em> string </em>
-
-</td>
-
-<td>
-
-<p>
-
-store data or something to save for event notifications or trigger
-events
-
-</p>
-
-</td>
-
-</tr>
-
-<tr>
-
-<td>
-
-<code>event</code></br> <em> <a href="#argoproj.io/v1alpha1.Event">
-Event </a> </em>
-
-</td>
-
-<td>
-
-<p>
-
-Event stores the last seen event for this node
-
-</p>
-
-</td>
-
-</tr>
-
-<tr>
-
-<td>
-
-<code>updatedAt</code></br> <em>
-<a href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.13/#microtime-v1-meta">
-Kubernetes meta/v1.MicroTime </a> </em>
-
-</td>
-
-<td>
-
-<p>
-
-UpdatedAt refers to the time at which the node was updated.
-
-</p>
-
-</td>
-
-</tr>
-
-<tr>
-
-<td>
-
-<code>resolvedAt</code></br> <em>
-<a href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.13/#microtime-v1-meta">
-Kubernetes meta/v1.MicroTime </a> </em>
-
-</td>
-
-<td>
-
-<p>
-
-ResolvedAt refers to the time at which the node was resolved.
-
-</p>
-
-</td>
-
-</tr>
-
-</tbody>
-
-</table>
-
-<h3 id="argoproj.io/v1alpha1.NodeType">
-
-NodeType (<code>string</code> alias)
-
-</p>
-
-</h3>
-
-<p>
-
-(<em>Appears on:</em>
-<a href="#argoproj.io/v1alpha1.NodeStatus">NodeStatus</a>)
-
-</p>
-
-<p>
-
-<p>
-
-NodeType is the type of a node
-
-</p>
-
-</p>
-
-<h3 id="argoproj.io/v1alpha1.NotificationType">
-
-NotificationType (<code>string</code> alias)
-
-</p>
-
-</h3>
-
-<p>
-
-<p>
-
-NotificationType represent a type of notifications that are handled by a
-sensor
-
-</p>
-
-</p>
-
 <h3 id="argoproj.io/v1alpha1.OpenWhiskTrigger">
 
 OpenWhiskTrigger
@@ -3981,29 +3619,6 @@ Template is the pod specification for the sensor
 
 <td>
 
-<code>subscription</code></br> <em>
-<a href="#argoproj.io/v1alpha1.Subscription"> Subscription </a> </em>
-
-</td>
-
-<td>
-
-<p>
-
-Subscription refers to the modes of events subscriptions for the sensor.
-At least one of the types of subscription must be defined in order for
-sensor to be meaningful.
-
-</p>
-
-</td>
-
-</tr>
-
-<tr>
-
-<td>
-
 <code>circuit</code></br> <em> string </em>
 
 </td>
@@ -4069,6 +3684,27 @@ processed.
 
 <td>
 
+<code>eventBusName</code></br> <em> string </em>
+
+</td>
+
+<td>
+
+<p>
+
+EventBusRef references to a EventBus name. By default the value is
+“default”
+
+</p>
+
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+
 <code>serviceLabels</code></br> <em> map\[string\]string </em>
 
 </td>
@@ -4077,7 +3713,8 @@ processed.
 
 <p>
 
-ServiceLabels to be set for the service generated
+ServiceLabels to be set for the service generated DEPRECATED: Service
+will not be created in the future.
 
 </p>
 
@@ -4098,7 +3735,30 @@ ServiceLabels to be set for the service generated
 <p>
 
 ServiceAnnotations refers to annotations to be set for the service
-generated
+generated DEPRECATED: Service will not be created in the future.
+
+</p>
+
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+
+<code>subscription</code></br> <em>
+<a href="#argoproj.io/v1alpha1.Subscription"> Subscription </a> </em>
+
+</td>
+
+<td>
+
+<p>
+
+Subscription refers to the modes of events subscriptions for the sensor.
+At least one of the types of subscription must be defined in order for
+sensor to be meaningful. DEPRECATED: Use EventBus instead
 
 </p>
 
@@ -4136,13 +3796,6 @@ generated
 SensorResources
 
 </h3>
-
-<p>
-
-(<em>Appears on:</em>
-<a href="#argoproj.io/v1alpha1.SensorStatus">SensorStatus</a>)
-
-</p>
 
 <p>
 
@@ -4346,29 +3999,6 @@ Template is the pod specification for the sensor
 
 <td>
 
-<code>subscription</code></br> <em>
-<a href="#argoproj.io/v1alpha1.Subscription"> Subscription </a> </em>
-
-</td>
-
-<td>
-
-<p>
-
-Subscription refers to the modes of events subscriptions for the sensor.
-At least one of the types of subscription must be defined in order for
-sensor to be meaningful.
-
-</p>
-
-</td>
-
-</tr>
-
-<tr>
-
-<td>
-
 <code>circuit</code></br> <em> string </em>
 
 </td>
@@ -4434,6 +4064,27 @@ processed.
 
 <td>
 
+<code>eventBusName</code></br> <em> string </em>
+
+</td>
+
+<td>
+
+<p>
+
+EventBusRef references to a EventBus name. By default the value is
+“default”
+
+</p>
+
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+
 <code>serviceLabels</code></br> <em> map\[string\]string </em>
 
 </td>
@@ -4442,7 +4093,8 @@ processed.
 
 <p>
 
-ServiceLabels to be set for the service generated
+ServiceLabels to be set for the service generated DEPRECATED: Service
+will not be created in the future.
 
 </p>
 
@@ -4463,7 +4115,30 @@ ServiceLabels to be set for the service generated
 <p>
 
 ServiceAnnotations refers to annotations to be set for the service
-generated
+generated DEPRECATED: Service will not be created in the future.
+
+</p>
+
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+
+<code>subscription</code></br> <em>
+<a href="#argoproj.io/v1alpha1.Subscription"> Subscription </a> </em>
+
+</td>
+
+<td>
+
+<p>
+
+Subscription refers to the modes of events subscriptions for the sensor.
+At least one of the types of subscription must be defined in order for
+sensor to be meaningful. DEPRECATED: Use EventBus instead
 
 </p>
 
@@ -4525,8 +4200,8 @@ Description
 
 <td>
 
-<code>phase</code></br> <em> <a href="#argoproj.io/v1alpha1.NodePhase">
-NodePhase </a> </em>
+<code>Status</code></br> <em>
+github.com/argoproj/argo-events/pkg/apis/common.Status </em>
 
 </td>
 
@@ -4534,181 +4209,7 @@ NodePhase </a> </em>
 
 <p>
 
-Phase is the high-level summary of the sensor.
-
-</p>
-
-</td>
-
-</tr>
-
-<tr>
-
-<td>
-
-<code>startedAt</code></br> <em>
-<a href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.13/#time-v1-meta">
-Kubernetes meta/v1.Time </a> </em>
-
-</td>
-
-<td>
-
-<p>
-
-StartedAt is the time at which this sensor was initiated
-
-</p>
-
-</td>
-
-</tr>
-
-<tr>
-
-<td>
-
-<code>completedAt</code></br> <em>
-<a href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.13/#time-v1-meta">
-Kubernetes meta/v1.Time </a> </em>
-
-</td>
-
-<td>
-
-<p>
-
-CompletedAt is the time at which this sensor was completed
-
-</p>
-
-</td>
-
-</tr>
-
-<tr>
-
-<td>
-
-<code>message</code></br> <em> string </em>
-
-</td>
-
-<td>
-
-<p>
-
-Message is a human readable string indicating details about a sensor in
-its phase
-
-</p>
-
-</td>
-
-</tr>
-
-<tr>
-
-<td>
-
-<code>nodes</code></br> <em> <a href="#argoproj.io/v1alpha1.NodeStatus">
-map\[string\]github.com/argoproj/argo-events/pkg/apis/sensor/v1alpha1.NodeStatus
-</a> </em>
-
-</td>
-
-<td>
-
-<p>
-
-Nodes is a mapping between a node ID and the node’s status it records
-the states for the FSM of this sensor.
-
-</p>
-
-</td>
-
-</tr>
-
-<tr>
-
-<td>
-
-<code>triggerCycleCount</code></br> <em> int32 </em>
-
-</td>
-
-<td>
-
-<p>
-
-TriggerCycleCount is the count of sensor’s trigger cycle runs.
-
-</p>
-
-</td>
-
-</tr>
-
-<tr>
-
-<td>
-
-<code>triggerCycleStatus</code></br> <em>
-<a href="#argoproj.io/v1alpha1.TriggerCycleState"> TriggerCycleState
-</a> </em>
-
-</td>
-
-<td>
-
-<p>
-
-TriggerCycleState is the status from last cycle of triggers execution.
-
-</p>
-
-</td>
-
-</tr>
-
-<tr>
-
-<td>
-
-<code>lastCycleTime</code></br> <em>
-<a href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.13/#time-v1-meta">
-Kubernetes meta/v1.Time </a> </em>
-
-</td>
-
-<td>
-
-<p>
-
-LastCycleTime is the time when last trigger cycle completed
-
-</p>
-
-</td>
-
-</tr>
-
-<tr>
-
-<td>
-
-<code>resources</code></br> <em>
-<a href="#argoproj.io/v1alpha1.SensorResources"> SensorResources </a>
-</em>
-
-</td>
-
-<td>
-
-<p>
-
-Resources refers to metadata of the resources created for the sensor
+(Members of <code>Status</code> are embedded into this type.)
 
 </p>
 
@@ -5163,7 +4664,7 @@ Subscription
 <p>
 
 Subscription holds different modes of subscription available for sensor
-to consume events.
+to consume events. DEPRECATED
 
 </p>
 
@@ -5749,31 +5250,6 @@ Policy to configure backoff and execution criteria for the trigger
 </tbody>
 
 </table>
-
-<h3 id="argoproj.io/v1alpha1.TriggerCycleState">
-
-TriggerCycleState (<code>string</code> alias)
-
-</p>
-
-</h3>
-
-<p>
-
-(<em>Appears on:</em>
-<a href="#argoproj.io/v1alpha1.SensorStatus">SensorStatus</a>)
-
-</p>
-
-<p>
-
-<p>
-
-TriggerCycleState is the label for the state of the trigger cycle
-
-</p>
-
-</p>
 
 <h3 id="argoproj.io/v1alpha1.TriggerParameter">
 

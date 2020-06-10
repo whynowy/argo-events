@@ -36,9 +36,9 @@ endif
 
 # Build the project images
 .DELETE_ON_ERROR:
-all: sensor-linux sensor-controller-linux gateway-controller-linux gateway-client-linux gateway-server-linux eventbus-controller-linux
+all: sensor-linux sensor-controller-linux gateway-controller-linux gateway-client-linux gateway-server-linux eventbus-controller-linux sensor-proxy-linux
 
-all-images: sensor-image sensor-controller-image gateway-controller-image gateway-client-image gateway-server-image eventbus-controller-image
+all-images: sensor-image sensor-controller-image gateway-controller-image gateway-client-image gateway-server-image eventbus-controller-image sensor-proxy-image
 
 all-controller-images: sensor-controller-image gateway-controller-image eventbus-controller-image
 
@@ -46,7 +46,7 @@ all-controller-images: sensor-controller-image gateway-controller-image eventbus
 
 # Sensor
 sensor:
-	go build -v -ldflags '${LDFLAGS}' -o ${DIST_DIR}/sensor ./sensors/cmd/client.go
+	go build -v -ldflags '${LDFLAGS}' -o ${DIST_DIR}/sensor ./sensors/cmd/main.go
 
 sensor-linux:
 	CGO_ENABLED=0 GOOS=linux GOARCH=amd64 make sensor
@@ -67,6 +67,18 @@ sensor-controller-image:
 	@if [ "$(BUILD_BINARY)" = "true" ]; then make sensor-controller-linux; fi
 	docker build -t $(IMAGE_PREFIX)sensor-controller:$(IMAGE_TAG) -f ./controllers/sensor/Dockerfile .
 	@if [ "$(DOCKER_PUSH)" = "true" ] ; then  docker push $(IMAGE_PREFIX)sensor-controller:$(IMAGE_TAG) ; fi
+
+# Sensor proxy server
+sensor-proxy:
+	go build -v -ldflags '${LDFLAGS}' -o ${DIST_DIR}/sensor-proxy ./sensorproxy/cmd/main.go
+
+sensor-proxy-linux:
+	CGO_ENABLED=0 GOOS=linux GOARCH=amd64 make sensor-proxy
+
+sensor-proxy-image:
+	@if [ "$(BUILD_BINARY)" = "true" ]; then make sensor-proxy-linux; fi
+	docker build -t $(IMAGE_PREFIX)sensor-proxy:$(IMAGE_TAG) -f ./sensorproxy/Dockerfile .
+	@if [ "$(DOCKER_PUSH)" = "true" ] ; then  docker push $(IMAGE_PREFIX)sensor-proxy:$(IMAGE_TAG) ; fi
 
 # Gateway controller
 gateway-controller:

@@ -13,6 +13,7 @@ resources:
   - gateway-controller
   - sensor-controller
   - eventbus-controller
+  - sensor-proxy
 
 images:
   - name: argoproj/gateway-controller
@@ -20,6 +21,8 @@ images:
   - name: argoproj/sensor-controller
     newTag: v0.16.0
   - name: argoproj/eventbus-controller
+    newTag: v0.16.0
+  - name: argoproj/sensor-proxy
     newTag: v0.16.0
 
 patchesStrategicMerge:
