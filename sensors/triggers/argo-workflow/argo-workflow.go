@@ -16,12 +16,10 @@ limitations under the License.
 package argo_workflow
 
 import (
-	"encoding/json"
 	"io/ioutil"
 	"os"
 	"os/exec"
 
-	wf_v1alpha1 "github.com/argoproj/argo/pkg/apis/workflow/v1alpha1"
 	"github.com/ghodss/yaml"
 	"github.com/pkg/errors"
 	"github.com/sirupsen/logrus"
@@ -91,14 +89,8 @@ func (t *ArgoWorkflowTrigger) Execute(events map[string]*v1alpha1.Event, resourc
 		return nil, errors.New("failed to interpret the trigger resource")
 	}
 
-	jObj, err := obj.MarshalJSON()
-	if err != nil {
-		return nil, err
-	}
-
-	var workflow *wf_v1alpha1.Workflow
-	if err := json.Unmarshal(jObj, &workflow); err != nil {
-		return nil, errors.Wrap(err, "internal un-marshalling of the trigger resource failed")
+	if obj.GetName() == "" && obj.GetGenerateName() == "" {
+		return nil, errors.New("workflow is malformed. neither name nor generateName is specified")
 	}
 
 	namespace := obj.GetNamespace()
@@ -108,13 +100,9 @@ func (t *ArgoWorkflowTrigger) Execute(events map[string]*v1alpha1.Event, resourc
 	}
 	obj.SetNamespace(namespace)
 
-	if workflow.Name == "" && workflow.GenerateName == "" {
-		return nil, errors.New("workflow is malformed. neither name nor generateName is specified")
-	}
-
-	name := workflow.Name
-	if name == "" && workflow.GenerateName != "" {
-		name = workflow.GenerateName
+	name := obj.GetName()
+	if name == "" {
+		name = obj.GetGenerateName()
 	}
 
 	op := v1alpha1.Submit
@@ -126,13 +114,13 @@ func (t *ArgoWorkflowTrigger) Execute(events map[string]*v1alpha1.Event, resourc
 
 	switch op {
 	case v1alpha1.Submit:
-		file, err := ioutil.TempFile("/bin/workflows", workflow.Name)
+		file, err := ioutil.TempFile("", name)
 		if err != nil {
 			return nil, errors.Wrapf(err, "failed to create a temp file for the workflow %s", name)
 		}
 		defer os.Remove(file.Name())
 
-		workflowYaml, err := yaml.Marshal(workflow)
+		workflowYaml, err := yaml.Marshal(obj)
 		if err != nil {
 			return nil, errors.Wrap(err, "internal marshalling to YAML of the trigger resource failed")
 		}
@@ -160,8 +148,8 @@ func (t *ArgoWorkflowTrigger) Execute(events map[string]*v1alpha1.Event, resourc
 	}
 
 	t.namespableDynamicClient = t.DynamicClient.Resource(schema.GroupVersionResource{
-		Group:    workflow.GroupVersionKind().Group,
-		Version:  workflow.GroupVersionKind().Version,
+		Group:    obj.GroupVersionKind().Group,
+		Version:  obj.GroupVersionKind().Version,
 		Resource: "workflows",
 	})
 

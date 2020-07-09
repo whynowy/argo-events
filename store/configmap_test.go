@@ -3,11 +3,11 @@ package store
 import (
 	"testing"
 
-	wfv1 "github.com/argoproj/argo/pkg/apis/workflow/v1alpha1"
 	"github.com/ghodss/yaml"
 	"github.com/smartystreets/goconvey/convey"
 	corev1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
 	"k8s.io/client-go/kubernetes/fake"
 
 	"github.com/argoproj/argo-events/pkg/apis/sensor/v1alpha1"
@@ -59,10 +59,10 @@ spec:
 				resourceBody, err := cmReader.Read()
 				convey.So(err, convey.ShouldBeNil)
 
-				var wf *wfv1.Workflow
+				var wf *unstructured.Unstructured
 				err = yaml.Unmarshal(resourceBody, &wf)
 				convey.So(err, convey.ShouldBeNil)
-				convey.So(wf.Name, convey.ShouldEqual, "hello-world")
+				convey.So(wf.GetName(), convey.ShouldEqual, "hello-world")
 			})
 		})
 	})
