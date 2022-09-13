@@ -77,11 +77,11 @@ require (
 	k8s.io/api v0.24.3
 	k8s.io/apimachinery v0.24.3
 	k8s.io/client-go v0.24.3
-	k8s.io/code-generator v0.23.5
-	k8s.io/gengo v0.0.0-20211115164449-b448ea381d54
+	k8s.io/code-generator v0.24.0
+	k8s.io/gengo v0.0.0-20211129171323-c02415ce4185
 	k8s.io/kube-openapi v0.0.0-20220627174259-011e075b9cb8
 	sigs.k8s.io/controller-runtime v0.11.2
-	sigs.k8s.io/controller-tools v0.8.0
+	sigs.k8s.io/controller-tools v0.9.2
 	sigs.k8s.io/yaml v1.3.0
 )
 
@@ -174,7 +174,7 @@ require (
 	github.com/go-openapi/swag v0.19.15 // indirect
 	github.com/go-openapi/validate v0.20.3 // indirect
 	github.com/go-stack/stack v1.8.1 // indirect
-	github.com/gobuffalo/flect v0.2.3 // indirect
+	github.com/gobuffalo/flect v0.2.5 // indirect
 	github.com/golang-jwt/jwt/v4 v4.4.1 // indirect
 	github.com/golang/glog v1.0.0 // indirect
 	github.com/golang/groupcache v0.0.0-20210331224755-41bb18bfe9da // indirect
@@ -288,8 +288,8 @@ require (
 	gopkg.in/warnings.v0 v0.1.2 // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
-	k8s.io/apiextensions-apiserver v0.23.5 // indirect
-	k8s.io/component-base v0.23.5 // indirect
+	k8s.io/apiextensions-apiserver v0.24.0 // indirect
+	k8s.io/component-base v0.24.0 // indirect
 	k8s.io/klog v1.0.0 // indirect
 	k8s.io/klog/v2 v2.60.1 // indirect
 	k8s.io/utils v0.0.0-20220210201930-3a6ce19ff2f9
